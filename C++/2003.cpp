@@ -4,7 +4,7 @@ using namespace std;
 int arr[100001];
 int main() {
 
-    // ¿©±â´Ù°¡
+    // ì—¬ê¸°ë‹¤ê°€
 
     int N, M;
     cin >> N >> M;
@@ -14,13 +14,13 @@ int main() {
         cin >> tmp;
         arr[i] = tmp;
     }
-    int l = 1, r = 1;  // ÅõÆ÷ÀÎÅÍ
+    int l = 1, r = 1;  // íˆ¬í¬ì¸í„°
     int ans = 0;
     int sum = 0;
     while (!((r > N) && (sum <= M))) {
         sum = 0;
         //cout << "l: " << l << " r: " << r << endl;
-        for (int i = l; i < r + 1; i++) {  // l ºÎÅÍ r ±îÁöÀÇ ºÎºĞ¼ö¿­ÀÇ ÇÕÀ» °è»ê
+        for (int i = l; i < r + 1; i++) {  // l ë¶€í„° r ê¹Œì§€ì˜ ë¶€ë¶„ìˆ˜ì—´ì˜ í•©ì„ ê³„ì‚°
             sum += arr[i];
         }
         if (sum < M) {
@@ -38,6 +38,6 @@ int main() {
     }
     cout << ans;
 
-    // ÄÚµå ÀÛ¼ºÇÏ±â
+    // ì½”ë“œ ì‘ì„±í•˜ê¸°
     return 0;
 }
