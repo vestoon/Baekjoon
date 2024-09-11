@@ -9,4 +9,4 @@ for test in range(T):
     n = int(input())
     print(dp[n])
 
-
+ 
