@@ -15,6 +15,7 @@ parent = [x for x in range(N+1)]
 edges = []
 ans = 0
 last = 0
+cnt = 0
 
 
 def getParent(x:int) ->int:
@@ -39,10 +40,12 @@ for _ in range(M):
 edges.sort()
 
 for c, a, b in edges:
+    if cnt == N-1: break
     if getParent(a) == getParent(b): continue
 
     last = c
     ans += c
+    cnt += 1
     union(a, b)
 
 print(ans - last)
