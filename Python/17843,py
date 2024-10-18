@@ -1,0 +1,19 @@
+import sys
+input = sys.stdin.readline
+
+T = int(input())
+for _ in range(T):
+    h, m, s = map(int, input().split())
+    hAngle = (h/12)*360
+    mAngle = (m/60)*360
+    sAngle = (s/60)*360
+
+    mAngle += (sAngle/360)*6
+    hAngle += mAngle/12
+
+    hAngle %= 360
+    mAngle %= 360
+
+    ls = sorted([hAngle, mAngle, sAngle])
+    print(min(ls[1]-ls[0], ls[2]-ls[1], 360-ls[2]+ls[0]))
+
