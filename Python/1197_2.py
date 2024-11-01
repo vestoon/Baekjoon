@@ -1,4 +1,5 @@
 import sys
+sys.setrecursionlimit(11000)
 input = sys.stdin.readline
 
 V, E = map(int, input().split())
