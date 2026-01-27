@@ -1,0 +1,65 @@
+import sys
+input = sys.stdin.readline
+
+"""
+물약은 한 번씩만 구매할 수 있음
+백트레킹을 적용시킨 완전 탐색 문제
+
+1. 순열을 기준으로 완전 탐색
+물약의 구매 상태를 비트로 저장(비트마스킹)하면 중간 과정에 대해서 백트레킹이 가능
+재귀를 사용하면 할인 정보를 메모리를 아끼며 계산 가능
+
+2. 비트마스킹을 백트레킹이 아니라 dp로 사용
+0 < i < 2**N 순서로 dp 값을 계산한다면 각각의 i에 대해서 dp[i]를 계산하기 위해 필요한 다른 dp값들이
+이미 계산되어 있다는 것이 보장되기 때문
+
+다만 할인 정보 또한 따로 저장해야 한다.
+"""
+
+N = int(input())
+C = list(map(int, input().split())) # 물약의 시작 가격
+discounts_info = [[] for _ in range(N)] # 물약 별 할인 정보
+
+for n in range(N):
+  p = int(input()) # n번째 물약에 대한 할인 정보의 수
+  discount = []
+
+  for _ in range(p):
+    # 물약 a를 d만큼 할인해 준다.
+    a, d = map(int, input().split()) # 인덱스 조정 필요
+    discount.append((a-1 , d))
+  discounts_info[n] = discount
+
+dp = [10001 for x in range((1 << N))] # 비트마스킹을 사용한 dp 
+
+# 일반적인 방식으로 dfs 돌리기
+# dfs 돌면서 1~N까지 빈 비트 확인, dp로 state별로 백트레킹
+def dfs_permutation(acc, state, cur_discount, C, N):
+  if state == (1<<N) - 1:
+    dp[state] = min(dp[state], acc)
+    return
+
+  if dp[state] < acc: return
+  dp[state] = acc
+
+  for nxt in range(N):
+    if state & 1 << nxt: continue
+
+    # 물약 구매
+    state |= 1 << nxt
+    for a, d in discounts_info[nxt]:
+      cur_discount[a] += d
+
+    cost = max(C[nxt] - cur_discount[nxt], 1)
+    dfs_permutation(acc + cost, state, cur_discount, C, N)
+
+    # 원상 복구
+    state ^= 1 << nxt
+    for a, d in discounts_info[nxt]:
+      cur_discount[a] -= d
+
+dfs_permutation(0, 0, [0 for x in range(N)], C, N)
+print(dp[-1])
+
+# PyPy3   : 832ms  , 112824KB
+# Python3 : 8012ms , 32412KB
