@@ -15,7 +15,7 @@ def sol():
 
   # 자릿수로 먼저 비교
   if len(A) < len(coupon):
-    print(makeMaxPrice(coupon))
+    print(maxPrice)
     return
 
   if len(coupon) < len(A):
